@@ -63,9 +63,7 @@ class MainActivity : AppCompatActivity() {
             activeplayer = 1
         }
         buselected.isEnabled = false
-
         checkwinner()
-
     }
 
     fun checkwinner() {
@@ -116,12 +114,29 @@ class MainActivity : AppCompatActivity() {
             winner = 2
         }
 
+        if (player1cells.contains(1) && player1cells.contains(5) && player1cells.contains(9)) {
+            winner = 1
+        }
+        if (player2cells.contains(1) && player2cells.contains(5) && player2cells.contains(9)) {
+            winner = 2
+        }
+        if (player1cells.contains(3) && player1cells.contains(5) && player1cells.contains(7)) {
+            winner = 1
+        }
+        if (player2cells.contains(3) && player2cells.contains(5) && player2cells.contains(7)) {
+            winner = 2
+        }
+
         if (winner > 0)
             flag = false
         if (winner == 1) {
+            p1winscount++
             Toast.makeText(this, "Player 1 wins", Toast.LENGTH_LONG).show()
+            restartgame()
         } else if (winner == 2) {
+            p2winscount++
             Toast.makeText(this, "Player 2 wins", Toast.LENGTH_LONG).show()
+            restartgame()
         }
 
     }
@@ -158,6 +173,44 @@ class MainActivity : AppCompatActivity() {
             }
             playgame(cellid, buttonselected)
         }
+    }
+
+    var p1winscount = 0
+    var p2winscount = 0
+
+    fun restartgame() {
+        activeplayer = 1
+        player1cells.clear()
+        player2cells.clear()
+        flag=true
+
+        for (cellid in 1..9) {
+            var buttonselected: Button?
+            buttonselected = when (cellid) {
+                1 -> bu1
+                2 -> bu2
+                3 -> bu3
+                4 -> bu4
+                5 -> bu5
+                6 -> bu6
+                7 -> bu7
+                8 -> bu8
+                9 -> bu9
+                else -> {
+                    bu1
+                }
+            }
+            //Thread.sleep(1000)
+            buttonselected!!.text = ""
+            buttonselected!!.setBackgroundResource(R.color.bucolor)
+            buttonselected!!.isEnabled = true
+        }
+        Toast.makeText(
+            this,
+            "Player 1 wins = $p1winscount   &   Player 2 wins = $p2winscount ",
+            Toast.LENGTH_LONG
+        ).show()
+
     }
 
 
